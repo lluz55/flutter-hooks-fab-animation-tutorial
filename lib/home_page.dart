@@ -3,6 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_hooks_fab_scroll_tutorial/hooks/scroll_controller_for_animation.dart';
 
 class HomePage extends HookWidget {
+  final _colors = [
+    Colors.red,
+    Colors.green,
+    Colors.yellow,
+    Colors.pinkAccent,
+    Colors.brown
+  ];
+
   @override
   Widget build(BuildContext context) {
     final hideFabAnimController = useAnimationController(
@@ -11,7 +19,7 @@ class HomePage extends HookWidget {
         useScrollControllerForAnimation(hideFabAnimController);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Let's Scroll"),
+        title: Text("Scroll Animation Test"),
       ),
       floatingActionButton: FadeTransition(
         opacity: hideFabAnimController,
@@ -19,7 +27,11 @@ class HomePage extends HookWidget {
           scale: hideFabAnimController,
           child: FloatingActionButton.extended(
             label: const Text('Useless Floating Action Button'),
-            onPressed: () {},
+            onPressed: () {
+              scrollController.animateTo(0,
+                  duration: Duration(milliseconds: 350),
+                  curve: Curves.bounceIn);
+            },
           ),
         ),
       ),
@@ -28,7 +40,14 @@ class HomePage extends HookWidget {
         controller: scrollController,
         children: <Widget>[
           for (int i = 0; i < 5; i++)
-            Card(child: FittedBox(child: FlutterLogo())),
+            Card(
+              child: FittedBox(
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(_colors[i], BlendMode.srcIn),
+                  child: FlutterLogo(),
+                ),
+              ),
+            ),
         ],
       ),
     );

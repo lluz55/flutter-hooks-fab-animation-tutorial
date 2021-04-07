@@ -23,7 +23,7 @@ ScrollController useScrollControllerForAnimation(
       }
     });
     return () => _scrollController.dispose();
-  }, []);
+  }, [animationController]);
 
   return _scrollController;
 }
